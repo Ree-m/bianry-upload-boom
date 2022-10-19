@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
-const methodOverride = require("method-override");
+const methodOverride = require("method-override"); //lets us use put and delete by using html forms and setting the action=put/delete
 const flash = require("express-flash");
 const logger = require("morgan");
 const connectDB = require("./config/database");
@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(logger("dev"));
 
 //Use forms for put / delete
-app.use(methodOverride("_method"));
+app.use(methodOverride("_method")); //if any form has action with _method, what comes after that overrides the method='POST'
 
 // Setup Sessions - stored in MongoDB
 app.use(

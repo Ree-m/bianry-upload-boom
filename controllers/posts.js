@@ -12,7 +12,7 @@ module.exports = {
   },
   getFeed: async (req, res) => {
     try {
-      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
+      const posts = await Post.find().sort({ createdAt: "desc" }).lean(); //lean makes the POST mongodb document(object-like) that we get leaner.It gets rid of all the extra stuff that we dont need in the mongodb document.We used it to make it faster.
       res.render("feed.ejs", { posts: posts });
     } catch (err) {
       console.log(err);
@@ -42,7 +42,7 @@ module.exports = {
       console.log("Post has been added!");
       res.redirect("/profile");
     } catch (err) {
-      console.log(err);
+      console.log(`ERROR${err}`);
     }
   },
   likePost: async (req, res) => {
@@ -50,7 +50,7 @@ module.exports = {
       await Post.findOneAndUpdate(
         { _id: req.params.id },
         {
-          $inc: { likes: 1 },
+          $inc: { likes: 1 }, //increment by 1
         }
       );
       console.log("Likes +1");
