@@ -5,11 +5,13 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const methodOverride = require("method-override"); //lets us use put and delete by using html forms and setting the action=put/delete
-const flash = require("express-flash");
-const logger = require("morgan");
+const flash = require("express-flash");//if password is short,email is invalid,or not confirmed,flash gives us an error message
+const logger = require("morgan");//morgan is a logger,it console.logs all the events that are happening
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const postRoutes = require("./routes/posts");
+const commentRoutes=require("./routes/comments");
+
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -26,7 +28,7 @@ app.set("view engine", "ejs");
 //Static Folder
 app.use(express.static("public"));
 
-//Body Parsing
+//Body Parsing,get data from req.body
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -56,8 +58,11 @@ app.use(flash());
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/post", postRoutes);
+app.use("/comment",commentRoutes);
 
 //Server Running
 app.listen(process.env.PORT, () => {
   console.log("Server is running, you better catch it!");
 });
+
+
